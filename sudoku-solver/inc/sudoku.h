@@ -1,20 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char POSSIBLE = 0x1FF;
+#define SQUARES             9
+#define NUMBERS_IN_SQUARE   9
+#define SQUARE              9
+#define POSSIBLE            0x1FF
 
-typedef struct Box {
+typedef struct square
+{
+    int number;
+    int row;
+    int column;
 
-} Box_t;
+    unsigned short code;
 
-typedef struct Square {
-	int number;
-	char code;
-	Box_t *box;
-	int row;
-	int column;
-} Square_t;
+} square_t;
 
-int ** createPuzzle(void);
-void printPuzzle(int ** puzzle);
-Square_t *** setUpPuzzle(int ** puzzle); 
+int **create_puzzle(void);
+
+void print_puzzle(int **puzzle);
+
+square_t ***set_up_puzzle(int **puzzle);

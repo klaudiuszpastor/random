@@ -1,15 +1,13 @@
 #include "sudoku.h"
 
-int main() {
-	int ** puzzle;
-	Square_t *** sudoku;	
+int main() 
+{
+    int **puzzle = create_puzzle();
+    //square_t ***sudoku = set_up_puzzle(puzzle);
 
-	puzzle = createPuzzle();
-	printPuzzle(puzzle);
+    print_puzzle(puzzle);
 
-	sudoku = setUpPuzzle(puzzle);
+    free(puzzle);
+    return 0;
 
-	free(puzzle);
-	return 0;
-	
 }

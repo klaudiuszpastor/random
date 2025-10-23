@@ -1,86 +1,107 @@
 #include "sudoku.h"
 
-Square_t *** setUpPuzzle(int ** puzzle) {
-	Square_t *** sudoku;
-	int i,j;
+square_t ***set_up_puzzle(int **puzzle)
+{
+    square_t ***sudoku;
+    int i,j;
 
+    sudoku = (square_t***) malloc((sizeof(square_t) * SQUARES));
 
-	sudoku = (Square_t***)malloc(sizeof(Square_t**)*9);
+    for (i = 0; i < 9; i++)
+    {
+        sudoku[i] = (square_t**) malloc((sizeof(square_t*) * SQUARES));
 
-	for (i = 0; i < 9; i++) {
-		sudoku[i] = (Square_t**)malloc(sizeof(Square_t*)*9);
+        for (j = 0; j < 9; j++)
+        {
+            sudoku[i][j] = (square_t*) malloc(sizeof(square_t));
 
-		for (j = 0; j < 9; j++) {
-			sudoku[i][j] = (Square_t*)malloc(sizeof(Square_t)*9);
-			
-			sudoku[i][j]->number = puzzle[i][j];
-			
-			sudoku[i][j]->row = i;
-			sudoku[i][j]->column = j;
+            sudoku[i][j] -> number = puzzle[i][j];
+            sudoku[i][j] -> row    = i;
+            sudoku[i][j] -> column = j;
 
-			if (sudoku[i][j] -> number != 0)
-				sudoku[i][j]->code = POSSIBLE;
-			else {
-				sudoku[i][j]->code = 0x0;
-			}
-		}
-	}
+            if (sudoku[i][j] -> number != 0)
+            {
+                sudoku[i][j] -> code = 0x0;
+            }
+            else
+            {
+                sudoku[i][j] -> code = POSSIBLE;
+            }
+         }
+    }
+    //TODO check
 
+    return sudoku;
 }
 
-int ** createPuzzle() {
-	int ** puzzle;
-	int i,j;
-	int array[9][9] = {
-    		{0, 1, 9, 0, 0, 2, 0, 0, 0},
-    		{4, 7, 0, 6, 9, 0, 0, 0, 1},
-    		{0, 0, 0, 4, 0, 0, 9, 0, 0},
-    		{8, 9, 4, 5, 0, 7, 0, 0, 0},
-    		{0, 0, 0, 0, 0, 0, 0, 0, 0},
-    		{0, 0, 0, 0, 2, 0, 1, 9, 5},
-    		{0, 5, 0, 0, 0, 0, 6, 0, 0},
-    		{0, 0, 0, 2, 8, 0, 7, 7, 9},
-    		{0, 0, 0, 1, 0, 0, 8, 6, 0}
-	};
-	puzzle = (int**)malloc(sizeof(int*)*9);
-	if (!puzzle) {
-		fprintf(stderr, "Memory allocation for puzzle failed\n");
-		exit(1);
-	}
+int **create_puzzle()
+{
+    int **puzzle;
+    int i,j;
 
-	for (i = 0; i < 9; i++) {
-		puzzle[i] = (int*)malloc(sizeof(int)*9);
-		if (!puzzle[i]) {
-			fprintf(stderr, "Memory allocation failed for puzzle[%d]\n", i);
-			exit(1);
-		}
+    int array[SQUARE][NUMBERS_IN_SQUARE] =
+    {
+        {0, 1, 9, 0, 0, 2, 0, 0, 0},
+        {4, 7, 0, 6, 9, 0, 0, 0, 1},
+        {0, 0, 0, 4, 0, 0, 9, 0, 0},
+        {8, 9, 4, 5, 0, 7, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 2, 0, 1, 9, 5},
+        {0, 5, 0, 0, 0, 0, 6, 0, 0},
+        {0, 0, 0, 2, 8, 0, 7, 7, 9},
+        {0, 0, 0, 1, 0, 0, 8, 6, 0}
+    };
 
-		for (j = 0; j <9; j++) {
-			puzzle[i][j] = array[i][j];
-		}
-	}
+    puzzle = (int**) malloc(sizeof(int*) * SQUARES);
 
-	return puzzle;
+    if (!puzzle)
+    {
+      fprintf(stderr, "Memory allocation for puzzle failed\n");
+      exit(1);
+    }
+
+    for (i = 0; i < 9; i++)
+    {
+        puzzle[i] = (int*)malloc(sizeof(int)*9);
+
+        if (!puzzle[i]) 
+        {
+            fprintf(stderr, "Memory allocation failed for puzzle[%d]\n", i);
+            exit(1);
+        }
+
+        for (j = 0; j <9; j++) 
+        {
+            puzzle[i][j] = array[i][j];
+        }
+    }
+
+    return puzzle;
 }
 
-void printPuzzle(int ** puzzle) {
-	int i, j;
-	
-	printf("-------------------------------\n");
-	for (i = 0; i < 9; i++) {
-		printf("|");	
-		// Print each row
-		for (j = 0; j < 9; j++) {
-			printf(" %d ", puzzle[i][j]);
+void print_puzzle(int **puzzle)
+{
+    int i, j;
 
-			if ((j + 1) % 3 == 0) {
-				printf("|");
-			}
-		}
-		printf("\n");
-		if ((i + 1) % 3 ==0) {
-			printf("-------------------------------\n");
-		}
-	}
+    printf("-------------------------------\n");
+
+    for (i = 0; i < 9; i++)
+    {
+        printf("|");
+        // Print each row
+        for (j = 0; j < 9; j++)
+        {
+            printf(" %d ", puzzle[i][j]);
+
+            if ((j + 1) % 3 == 0) 
+            {
+                printf("|");
+            }
+        }
+        printf("\n");
+        if ((i + 1) % 3 ==0)
+        {
+            printf("-------------------------------\n");
+        }
+    }
 }
-
